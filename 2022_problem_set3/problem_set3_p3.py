@@ -112,35 +112,51 @@ class problem_set3:
     def estimated_states_prediction(self):
         
         # EKF Prediction step
+        v = self.xhat[3, 0]
+        theta = self.xhat[2, 0]
+        b = self.xhat[4, 0]
         # Your dot variables here. Remember your state vector xhat (x, y, theta, v, bias)
-        xdot = None # ..
-        ydot = None # ..
-        theta_dot = None # .. 
-        vdot = None # ..
-        bdot = None # ..
+        xdot = v*np.cos(theta) # ..
+        ydot = v*np.sin(theta) # ..
+        theta_dot = self.w_gyro # .. 
+        vdot = self.a_ - b # ..
+        bdot = np.random.randn(1,1).item()*self.sigma_b # ..
         
         # Euler integration to compute your state vector xhat
+        self.xhat += np.array([[xdot, ydot, theta_dot, vdot, bdot]]).transpose() * self.dt
+
         # Your code here
-        
         # Transition matrix
-        A = None # ..
-        
+        A = np.array([  [0, 0, -v*np.sin(theta), np.cos(theta), 0],
+                        [0, 0, v*np.cos(theta), np.sin(theta), 0],
+                        [0, 0, 0, 0, 0],
+                        [0, 0, 0, 0, 0],
+                        [0, 0, 0, 0, 0]]) # ..
+
         # Integrate state covariance matrix
-        pdot = None # ..
-        self.P = None # ..
+        pdot = A @ self.P + self.P @ A.transpose() + self.Q # .. 
+        self.P = self.P + pdot*self.dt # ..
+
         
     def estimated_states_correction(self):
         # correction step
         
         # These variables are already defined: self.C, self.P, self.R
-        z = np.array([[None],[None],[None]]) # measurements for correction
+        z = np.array([[self.x_gps],[self.y_gps],[self.v_enc]]) # measurements for correction
         
         # Compute Kalman filter gain
         # Your code here
 
+        H = self.C
+        S = H @ self.P @ H.transpose() + self.R
+        L = self.P @ H.transpose() @ np.linalg.inv(S) # Kalman gain
+        #Perform xhat correction    xhat = xhat + L@(z-H@xhat)
+        self.xhat = self.xhat + L @ (z - (H @ self.xhat)) # .. uncomment
         
-        self.xhat = None # ..
-        self.P = None # ..
+        #propagate error covariance approximation P = (np.eye(16,16)-L@H)@P
+        
+        self.P = self.P -L@S@L.transpose() # ..
+        
 
 
     

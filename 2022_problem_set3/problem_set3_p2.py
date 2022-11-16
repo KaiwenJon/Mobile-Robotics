@@ -77,18 +77,18 @@ class problem_set3:
         #Prediction step
         # Your dot variables here. Remember your state vector xhat (position, velocity, bias)
         
-        xdot = None # ..
-        vdot = None # ..
-        bdot = None # ..
+        xdot = self.xhat[1,0] # ..
+        vdot = -self.xhat[2,0] + self.a_ # ..
+        bdot = np.random.randn(1,1).item()*self.sigma_b # ..
         # Euler integration to compute your state vector
 
-        self.xhat[0,0] = None # ..
-        self.xhat[1,0] = None # .. 
-        self.xhat[2,0] = None # ..
+        self.xhat[0,0] += xdot*self.dt # ..
+        self.xhat[1,0] += vdot*self.dt # .. 
+        self.xhat[2,0] += bdot*self.dt # ..
     
         # Integrate state covariance matrix
         pdot = np.matmul(self.A,self.P) + np.matmul(self.P,self.A.T) + self.Q
-        self.P = None # ..
+        self.P += pdot*self.dt # ..
     
     def estimated_states_correction(self):
         # Correction step
@@ -97,9 +97,15 @@ class problem_set3:
         
         # Compute Kalman filter gain
         # Your code here
+        H = self.C
+        S = H @ self.P @ H.transpose() + self.R
+        L = self.P @ H.transpose() @ np.linalg.inv(S) # Kalman gain
+        #Perform xhat correction    xhat = xhat + L@(z-H@xhat)
+        self.xhat = self.xhat + L @ (y - (H @ self.xhat)) # .. uncomment
         
-        self.xhat = None # ..
-        self.P = None # ..
+        #propagate error covariance approximation P = (np.eye(16,16)-L@H)@P
+        
+        self.P = self.P -L@S@L.transpose() # ..
 
      
 if __name__ == '__main__':
