@@ -1,0 +1,51 @@
+rosbag2_bagfile_information:
+  compression_format: ''
+  compression_mode: ''
+  custom_data: {}
+  duration:
+    nanoseconds: 234800432451
+  files:
+  - duration:
+      nanoseconds: 234800432451
+    message_count: 23566
+    path: solar_house_v3.db3
+    starting_time:
+      nanoseconds_since_epoch: 1666038221202386139
+  message_count: 23566
+  relative_file_paths:
+  - solar_house_v3.db3
+  starting_time:
+    nanoseconds_since_epoch: 1666038221202386139
+  storage_identifier: sqlite3
+  topics_with_message_count:
+  - message_count: 1175
+    topic_metadata:
+      name: /gps_speed_east
+      offered_qos_profiles: ''
+      serialization_format: cdr
+      type: std_msgs/msg/Float32
+  - message_count: 1175
+    topic_metadata:
+      name: /gps_longitude
+      offered_qos_profiles: ''
+      serialization_format: cdr
+      type: std_msgs/msg/Float32
+  - message_count: 1175
+    topic_metadata:
+      name: /gps_speed_north
+      offered_qos_profiles: ''
+      serialization_format: cdr
+      type: std_msgs/msg/Float32
+  - message_count: 1175
+    topic_metadata:
+      name: /gps_latitude
+      offered_qos_profiles: ''
+      serialization_format: cdr
+      type: std_msgs/msg/Float32
+  - message_count: 18866
+    topic_metadata:
+      name: /terrasentia/imu
+      offered_qos_profiles: ''
+      serialization_format: cdr
+      type: sensor_msgs/msg/Imu
+  version: 6
