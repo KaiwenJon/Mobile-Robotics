@@ -22,6 +22,9 @@ setup(
         'console_scripts': [
             'part1 = mobile_robotics.coding_ex1_part1:main',
             'part2 = mobile_robotics.coding_ex1_part2:main',
+            'cod_ex2 = mobile_robotics.coding_ex2:main',
+            'cod_nath = mobile_robotics.coding_ex2_8:main',
+            'cod_ex3 = mobile_robotics.coding_ex3:main'
         ],
     },
 )
